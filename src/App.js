@@ -44,10 +44,11 @@ class App extends React.Component {
               <div data-testid="page-profile-edit" />
             ) }
           />
-          <Route 
+          <Route
             render={ () => (
               <div data-testid="page-not-found" />
-            ) } />
+            ) }
+          />
         </Switch>
       </div>
     );
