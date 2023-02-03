@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
 
 class App extends React.Component {
   render() {
@@ -10,7 +11,11 @@ class App extends React.Component {
             exact
             path="/"
             render={ () => (
-              <div data-testid="page-login" />
+              <div
+                data-testid="page-login"
+              >
+                <Login />
+              </div>
             ) }
           />
           <Route
@@ -54,5 +59,5 @@ class App extends React.Component {
     );
   }
 }
-// primeiro commit
+
 export default App;
