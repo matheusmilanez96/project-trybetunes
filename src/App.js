@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
+import Header from './components/Header';
 
 class App extends React.Component {
   render() {
@@ -21,32 +22,42 @@ class App extends React.Component {
           <Route
             path="/search"
             render={ () => (
-              <div data-testid="page-search" />
+              <div data-testid="page-search">
+                <Header />
+              </div>
             ) }
           />
           <Route
             path="/album/:id"
             render={ () => (
-              <div data-testid="page-album" />
+              <div data-testid="page-album">
+                <Header />
+              </div>
             ) }
           />
           <Route
             path="/favorites"
             render={ () => (
-              <div data-testid="page-favorites" />
+              <div data-testid="page-favorites">
+                <Header />
+              </div>
             ) }
           />
           <Route
             exact
             path="/profile"
             render={ () => (
-              <div data-testid="page-profile" />
+              <div data-testid="page-profile">
+                <Header />
+              </div>
             ) }
           />
           <Route
             path="/profile/edit"
             render={ () => (
-              <div data-testid="page-profile-edit" />
+              <div data-testid="page-profile-edit">
+                <Header />
+              </div>
             ) }
           />
           <Route
