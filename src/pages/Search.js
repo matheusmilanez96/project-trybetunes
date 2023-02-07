@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from '../components/Loading';
 
 class Search extends Component {
   state = {
     artistName: '',
+    artistName2: '',
     isButtonDisabled: true,
+    isLoading: false,
+    searchOver: false,
+    albumArray: [],
   };
 
   onInputChange = ({ target }) => {
@@ -27,8 +34,37 @@ class Search extends Component {
     }
   };
 
+  searchArtist = async () => {
+    const { artistName } = this.state;
+    this.setState(
+      {
+        isLoading: true,
+        artistName2: artistName,
+      },
+      async () => {
+        const albums = await searchAlbumsAPI(artistName);
+        this.setState({
+          isLoading: false,
+          searchOver: true,
+          albumArray: albums,
+          artistName: '',
+        });
+      },
+    );
+  };
+
   render() {
-    const { isButtonDisabled, artistName } = this.state;
+    const {
+      isButtonDisabled,
+      artistName,
+      artistName2,
+      isLoading,
+      searchOver,
+      albumArray,
+    } = this.state;
+    if (isLoading) {
+      return <Loading />;
+    }
     return (
       <form>
         <input
@@ -41,9 +77,36 @@ class Search extends Component {
           type="button"
           data-testid="search-artist-button"
           disabled={ isButtonDisabled }
+          onClick={ this.searchArtist }
         >
           Procurar
         </button>
+        <span>
+          { searchOver && albumArray.length > 0
+            ? (
+              <div>
+                <h3>
+                  {`Resultado de álbuns de: ${artistName2}`}
+                </h3>
+                <ul>
+                  { albumArray.map((album) => (
+                    <li key={ album.collectionId }>
+                      <Link
+                        to={ `/album/${album.collectionId}` }
+                        data-testid={ `link-to-album-${album.collectionId}` }
+                      >
+                        { album.collectionName }
+                      </Link>
+                    </li>
+                  )) }
+                </ul>
+              </div>) : undefined }
+          { searchOver && albumArray.length === 0
+            ? (
+              <p>
+                Nenhum álbum foi encontrado
+              </p>) : undefined }
+        </span>
       </form>
     );
   }
