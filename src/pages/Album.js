@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import Header from '../components/Header';
 
 class Album extends Component {
   state = {
@@ -10,20 +12,16 @@ class Album extends Component {
   };
 
   componentDidMount() {
-    const id = window.location.pathname.split('/').pop();
-    console.log(id);
+    const { match: { params: { id } } } = this.props;
     this.getTracklist(id);
   }
 
   getTracklist = async (id) => {
-    const tracklist = await getMusics(id);
+    const tl = await getMusics(id);
     this.setState({
-      artistName: tracklist[0].artistName,
-      albumName: tracklist[0].collectionName,
-    });
-    tracklist.shift();
-    this.setState({
-      tracklist,
+      artistName: tl[0].artistName,
+      albumName: tl[0].collectionName,
+      tracklist: tl.filter((result) => tl.indexOf(result) !== 0),
     });
   };
 
@@ -33,8 +31,10 @@ class Album extends Component {
       artistName,
       albumName,
     } = this.state;
+    console.log(tracklist);
     return (
-      <div>
+      <div data-testid="page-album">
+        <Header />
         <h3 data-testid="artist-name">{ artistName }</h3>
         <h4 data-testid="album-name">{ albumName }</h4>
         <MusicCard
@@ -44,5 +44,13 @@ class Album extends Component {
     );
   }
 }
+
+Album.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+};
 
 export default Album;

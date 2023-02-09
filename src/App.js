@@ -13,31 +13,15 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={ () => (
-              <div
-                data-testid="page-login"
-              >
-                <Login />
-              </div>
-            ) }
+            component={ Login }
           />
           <Route
             path="/search"
-            render={ () => (
-              <div data-testid="page-search">
-                <Header />
-                <Search />
-              </div>
-            ) }
+            component={ Search }
           />
           <Route
             path="/album/:id"
-            render={ () => (
-              <div data-testid="page-album">
-                <Header />
-                <Album />
-              </div>
-            ) }
+            component={ Album }
           />
           <Route
             path="/favorites"
