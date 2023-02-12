@@ -31,15 +31,17 @@ class Album extends Component {
       artistName,
       albumName,
     } = this.state;
-    console.log(tracklist);
     return (
       <div data-testid="page-album">
         <Header />
         <h3 data-testid="artist-name">{ artistName }</h3>
         <h4 data-testid="album-name">{ albumName }</h4>
-        <MusicCard
-          tracklist={ tracklist }
-        />
+        { tracklist.map((track) => (
+          <MusicCard
+            key={ track.trackId }
+            track={ track }
+          />
+        )) }
       </div>
     );
   }
